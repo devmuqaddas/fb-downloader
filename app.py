@@ -1029,28 +1029,28 @@ async def delete_file_after_delay(file_path: str, delay: float):
 
 
 
-# @app.get("/list_filess")
-# async def list_files():
-#     try:
-#         files = []
-#         if os.path.exists(OUTPUTS_DIR):
-#             for filename in os.listdir(OUTPUTS_DIR):
-#                 file_path = os.path.join(OUTPUTS_DIR, filename)
-#                 if os.path.isfile(file_path) and filename.endswith(('.mp4', '.webm', '.mkv')):
-#                     file_size = os.path.getsize(file_path)
-#                     files.append({
-#                         'name': filename,
-#                         'size': file_size,
-#                         'modified': os.path.getmtime(file_path)
-#                     })
+@app.get("/list_filess")
+async def list_files():
+    try:
+        files = []
+        if os.path.exists(OUTPUTS_DIR):
+            for filename in os.listdir(OUTPUTS_DIR):
+                file_path = os.path.join(OUTPUTS_DIR, filename)
+                if os.path.isfile(file_path) and filename.endswith(('.mp4', '.webm', '.mkv')):
+                    file_size = os.path.getsize(file_path)
+                    files.append({
+                        'name': filename,
+                        'size': file_size,
+                        'modified': os.path.getmtime(file_path)
+                    })
         
-#         # Sort by modification time (newest first)
-#         files.sort(key=lambda x: x['modified'], reverse=True)
-#         return files[:10]  # Return only the 10 most recent files
+        # Sort by modification time (newest first)
+        files.sort(key=lambda x: x['modified'], reverse=True)
+        return files[:10]  # Return only the 10 most recent files
         
-#     except Exception as e:
-#         print(f"❌ Error listing files: {e}")
-#         return []
+    except Exception as e:
+        print(f"❌ Error listing files: {e}")
+        return []
 
 @app.exception_handler(404)
 async def not_found_handler(request: Request, exc):
