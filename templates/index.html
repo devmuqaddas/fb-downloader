@@ -1288,13 +1288,15 @@
     <!-- Toast Notifications Container -->
     <div id="toastContainer" class="toast-container"></div>
 
+   
     <script>
-      class FacebookDownloader {
+          class FacebookDownloader {
         constructor() {
           this.currentVideoData = null;
           this.currentDownloadId = null;
           this.progressInterval = null;
-
+          this.autoResetTimer = null;
+          this.autoResetCountdown = null;
           this.currentFilename = null;
           this.isProcessing = false;
           this.progressCheckCount = 0;
@@ -1366,7 +1368,7 @@
           document.getElementById("videoViews").innerHTML =
             '<i class="fas fa-eye"></i> 0 views';
           document.getElementById("videoDescription").textContent = "";
-
+                    
           // Reset thumbnail to placeholder
           const thumbnailContainer = document.getElementById("videoThumbnail");
           thumbnailContainer.innerHTML = '<i class="fas fa-video"></i>';
@@ -1393,8 +1395,14 @@
             clearInterval(this.progressInterval);
             this.progressInterval = null;
           }
-          if (this.autoResetTimer) clearTimeout(this.autoResetTimer);
-          if (this.autoResetCountdown) clearInterval(this.autoResetCountdown);
+          if (this.autoResetTimer) {
+            clearTimeout(this.autoResetTimer);
+            this.autoResetTimer = null;
+          }
+          if (this.autoResetCountdown) {
+            clearInterval(this.autoResetCountdown);
+            this.autoResetCountdown = null;
+          }
         }
         async forceDownload(filename) {
           try {
@@ -1487,24 +1495,24 @@
           this.showToast("Downloader reset successfully!", "success");
           console.log("✅ Downloader reset complete");
         }
-        // startAutoReset() {
-        //   let countdown = 10;
-        //   const countdownElement =
-        //     document.getElementById("autoResetCountdown");
-        //   this.autoResetCountdown = setInterval(() => {
-        //     countdown--;
-        //     if (countdownElement) {
-        //       countdownElement.textContent = countdown;
-        //     }
-        //     if (countdown <= 0) {
-        //       clearInterval(this.autoResetCountdown);
-        //       this.resetDownloader();
-        //     }
-        //   }, 1000);
-        //   this.autoResetTimer = setTimeout(() => {
-        //     this.resetDownloader();
-        //   }, 10000);
-        // }
+        startAutoReset() {
+          let countdown = 10;
+          const countdownElement =
+            document.getElementById("autoResetCountdown");
+          this.autoResetCountdown = setInterval(() => {
+            countdown--;
+            if (countdownElement) {
+              countdownElement.textContent = countdown;
+            }
+            if (countdown <= 0) {
+              clearInterval(this.autoResetCountdown);
+              this.resetDownloader();
+            }
+          }, 1000);
+          this.autoResetTimer = setTimeout(() => {
+            this.resetDownloader();
+          }, 10000);
+        }
         cancelAutoReset() {
           this.clearTimers();
         }
@@ -1561,13 +1569,13 @@
             img.style.width = "100%";
             img.style.height = "100%";
             img.style.objectFit = "cover";
-
+                        
             img.onerror = () => {
               // If image fails to load, revert to placeholder
               thumbnailContainer.innerHTML = '<i class="fas fa-video"></i>';
               thumbnailContainer.className = "placeholder-image";
             };
-
+                        
             img.onload = () => {
               // Replace placeholder with actual image
               thumbnailContainer.innerHTML = "";
@@ -1852,12 +1860,61 @@
           };
           downloadComplete.classList.remove("hidden");
           this.loadRecentFiles();
-          // this.startAutoReset();
+          this.startAutoReset();
           console.log(
             "✅ Download completed, auto-reset will start in 10 seconds"
           );
         }
-
+        // async loadRecentFiles() {
+        //   try {
+        //     const response = await fetch("/list_files");
+        //     const files = await response.json();
+        //     const filesList = document.getElementById("filesList");
+        //     filesList.innerHTML = "";
+        //     if (!files || files.length === 0) {
+        //       filesList.innerHTML =
+        //         '<p class="no-files">No downloaded files yet</p>';
+        //       return;
+        //     }
+        //     files.forEach((file) => {
+        //       const fileItem = document.createElement("div");
+        //       fileItem.className = "file-item";
+        //       fileItem.innerHTML = `
+        //             <div class="file-info">
+        //                 <i class="fas fa-file-video"></i>
+        //                 <div class="file-details">
+        //                     <div class="file-name" title="${
+        //                       file.name
+        //                     }">${this.truncateFilename(file.name, 50)}</div>
+        //                     <div class="file-size">${this.formatFileSize(
+        //                       file.size
+        //                     )} • <i class="fas fa-volume-up"></i> With Audio</div>
+        //                 </div>
+        //             </div>
+        //             <button class="file-download-btn" onclick="window.facebookDownloader.forceDownload('${
+        //               file.name
+        //             }')">
+        //                 <i class="fas fa-download"></i>
+        //                 Download
+        //             </button>
+        //         `;
+        //       filesList.appendChild(fileItem);
+        //     });
+        //   } catch (error) {
+        //     console.error("Failed to load files:", error);
+        //     const filesList = document.getElementById("filesList");
+        //     filesList.innerHTML = '<p class="no-files">Error loading files</p>';
+        //   }
+        // }
+        
+        
+        
+        
+        
+        
+        
+        
+        
         showLoading(message = "Loading...") {
           document.getElementById("loadingText").textContent = message;
           document.getElementById("loadingSection").classList.remove("hidden");
@@ -1872,7 +1929,7 @@
           const sections = [
             "loadingSection",
             "videoInfoSection",
-            // "downloadSection",
+            "downloadSection",
             "errorSection",
           ];
           sections.forEach((id) => {
@@ -1924,5 +1981,6 @@
         window.facebookDownloader = facebookDownloader; // Make it globally accessible
       });
     </script>
+
   </body>
 </html>
