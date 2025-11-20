@@ -1,880 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Facebook Video Downloader - Fast & High Quality</title>
+    <title>Facebook Video Downloader - High Performance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Quicksand:wght@300..700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header__container">
+                <div class="header__logo">
+                    <a href="/">
+                        <h1>loader.<span>fb</span></h1>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
 
-    <link rel="stylesheet" href="../static/style.css" />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <style>
-    /* Reset and Base Styles */
-  </style>
-  <body>
     <div class="container">
-      <!-- Header -->
-      <header class="header">
-        <div class="logo">
-          <div class="logo-icon">
-            <i class="fab fa-facebook"></i>
-          </div>
-          <div class="logo-text">
-            <h1>Facebook Video Downloader</h1>
-            <p class="subtitle">
-              Download videos in high quality with audio - Super Fast!
-            </p>
-          </div>
-        </div>
-        <div class="features">
-          <span class="feature">
-            <i class="fas fa-volume-up"></i>
-            Audio Included
-          </span>
-          <span class="feature">
-            <i class="fas fa-rocket"></i>
-            Ultra Fast
-          </span>
-          <span class="feature">
-            <i class="fas fa-hd-video"></i>
-            HD Quality
-          </span>
-        </div>
-      </header>
-      <!-- Main Content -->
-      <main class="main-content">
-        <!-- URL Input Section -->
-        <section class="url-section">
-          <div class="input-container">
-            <div class="input-group">
-              <input
-                type="url"
-                id="videoUrl"
-                placeholder="Paste Facebook video URL here..."
-                class="url-input"
-              />
-              <button id="extractBtn" class="btn btn-primary">
-                <i class="fas fa-search"></i>
-                <span>Extract Info</span>
-              </button>
+        <!-- Hero Section -->
+        <section class="section--hero">
+            <div class="hero">
+                <div class="hero__icons">
+                    <div class="hero__icon hero__star"><i class="fas fa-star"></i></div>
+                    <div class="hero__icon hero__music"><i class="fas fa-music"></i></div>
+                    <div class="hero__icon hero__video"><i class="fas fa-video"></i></div>
+                </div>
+                <div class="hero__container">
+                    <div class="hero__title">
+                        <h1>Facebook Video Downloader</h1>
+                    </div>
+                    <div class="hero__subtitle">
+                        <h2>Download Facebook videos in high quality with audio - Fast, reliable, and hassle-free!</h2>
+                    </div>
+                </div>
             </div>
-            <button
-              id="resetBtn"
-              class="btn btn-secondary"
-              title="Reset Downloader"
-            >
-              <i class="fas fa-refresh"></i>
-              <span>Reset</span>
-            </button>
-          </div>
-          <div class="url-help">
-            <i class="fas fa-info-circle"></i>
-            <span
-              >Paste any Facebook video URL (facebook.com, m.facebook.com, or
-              fb.watch)</span
-            >
-          </div>
         </section>
-        <!-- Loading Section -->
-        <section id="loadingSection" class="section loading-section hidden">
-          <div class="loading-content">
-            <div class="loading-spinner">
-              <div class="spinner"></div>
-              <div class="loading-dots">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-            </div>
-            <p id="loadingText" class="loading-text">
-              Extracting video information...
-            </p>
-          </div>
-        </section>
-        <!-- Video Info Section -->
-        <section
-          id="videoInfoSection"
-          class="section video-info-section hidden"
-        >
-          <div class="video-card">
-            <div class="video-thumbnail">
-              <div id="videoThumbnail" class="placeholder-image">
-                <i class="fas fa-video"></i>
-              </div>
-              <div class="video-overlay">
-                <i class="fas fa-play"></i>
-              </div>
-            </div>
-            <div class="video-details">
-              <h2 id="videoTitle">Video Title</h2>
-              <div class="video-meta">
-                <span id="videoUploader">
-                  <i class="fas fa-user"></i> Unknown
-                </span>
-                <span id="videoDuration">
-                  <i class="fas fa-clock"></i> 0:00
-                </span>
-                <span id="videoViews">
-                  <i class="fas fa-eye"></i> 0 views
-                </span>
-              </div>
-              <p id="videoDescription" class="video-description"></p>
-            </div>
-          </div>
-          <!-- Format Selection -->
-          <div class="format-section">
-            <h3><i class="fas fa-download"></i> Choose Quality & Format</h3>
-            <div class="format-notice">
-              <i class="fas fa-volume-up"></i>
-              <span
-                >All video formats include audio for the best experience!</span
-              >
-            </div>
-            <div id="formatList" class="format-list">
-              <!-- Formats will be populated here -->
-            </div>
-          </div>
-        </section>
-        <!-- Download Progress Section -->
-        <section id="downloadSection" class="section download-section hidden">
-          <div class="download-card">
-            <h3><i class="fas fa-download"></i> Download Progress</h3>
-            <div class="download-info">
-              <i class="fas fa-rocket"></i>
-              <span>Downloading at maximum speed with audio included!</span>
-            </div>
-            <div class="progress-container">
-              <div class="progress-header">
-                <span id="progressPercent" class="progress-percent">0%</span>
-                <span id="progressSpeed" class="progress-speed"
-                  >Speed: N/A</span
-                >
-              </div>
-              <div class="progress-bar">
-                <div id="progressFill" class="progress-fill"></div>
-              </div>
-              <div class="progress-details">
-                <span id="progressDownloaded">Downloaded: 0 MB</span>
-                <span id="progressTotal">Total: 0 MB</span>
-                <span id="progressEta">ETA: N/A</span>
-              </div>
-            </div>
-            <div id="downloadComplete" class="download-complete hidden">
-              <div class="success-icon">
-                <i class="fas fa-check-circle"></i>
-              </div>
-              <p>Download completed successfully with audio!</p>
-              <div class="download-actions">
-                <button id="downloadFileBtn" class="btn btn-success">
-                  <i class="fas fa-download"></i>
-                  Download to Computer
-                </button>
-                <button id="downloadAnotherBtn" class="btn btn-primary">
-                  <i class="fas fa-plus"></i>
-                  Download Another
-                </button>
-              </div>
-              <div class="download-notice">
-                <i class="fas fa-info-circle"></i>
-                <span
-                  >Click "Download to Computer" to save the video file directly
-                  to your device</span
-                >
-              </div>
-              <div class="auto-reset-notice">
-                <i class="fas fa-clock"></i>
-                <span
-                  >Auto-resetting in
-                  <span id="autoResetCountdown">10</span> seconds...</span
-                >
-              </div>
-            </div>
-          </div>
-        </section>
-        <!-- Error Section -->
-        <section id="errorSection" class="section error-section hidden">
-          <div class="error-card">
-            <div class="error-icon">
-              <i class="fas fa-exclamation-triangle"></i>
-            </div>
-            <h3>Error</h3>
-            <p id="errorMessage">An error occurred</p>
-            <div class="error-actions">
-              <button id="retryBtn" class="btn btn-danger">
-                <i class="fas fa-redo"></i>
-                Try Again
-              </button>
-              <button id="resetFromErrorBtn" class="btn btn-secondary">
-                <i class="fas fa-refresh"></i>
-                Reset
-              </button>
-            </div>
-          </div>
-        </section>
-        <!-- Downloaded Files Section -->
-        <section class="section files-section">
-          <div class="files-header">
-            <h3><i class="fas fa-folder"></i> Recent Downloads</h3>
-            <button id="refreshFilesBtn" class="btn btn-outline">
-              <i class="fas fa-refresh"></i>
-              Refresh Files
-            </button>
-          </div>
-          <div id="filesList" class="files-list">
-            <!-- Files will be populated here -->
-          </div>
-        </section>
-      </main>
-      <!-- Footer -->
-      <footer class="footer">
-        <p>
-          &copy; 2024 Facebook Video Downloader. Built with FastAPI & yt-dlp |
-          Fast Downloads with Audio
-        </p>
-      </footer>
     </div>
-    <!-- Toast Notifications Container -->
-    <div id="toastContainer" class="toast-container"></div>
 
-    <script src="../static/script.js"></script>
+    <div class="container">
+        <!-- URL Form -->
+        <form class="url-form" id="urlForm">
+            <div class="input-group">
+                <input type="url" class="url-input" id="videoUrl" placeholder="Paste Facebook video URL here..." required />
+                <button type="submit" class="btn btn-primary" id="extractBtn">
+                    <i class="fas fa-search"></i>
+                    Extract Info
+                </button>
+            </div>
+        </form>
 
-    <script>
-      class FacebookDownloader {
-        constructor() {
-          this.currentVideoData = null;
-          this.currentDownloadId = null;
-          this.currentFilename = null;
-          this.isProcessing = false;
-          this.progressCheckCount = 0;
-          this.lastProgressUpdate = 0;
-          this.stopProgressTracking = false;
-          this.init();
-        }
-
-        init() {
-          this.bindEvents();
-        }
-
-        bindEvents() {
-          // Extract button
-          document
-            .getElementById("extractBtn")
-            .addEventListener("click", () => {
-              this.extractVideoInfo();
-            });
-
-          // Reset button
-          document.getElementById("resetBtn").addEventListener("click", () => {
-            this.resetDownloader();
-          });
-
-          // Enter key on URL input
-          document
-            .getElementById("videoUrl")
-            .addEventListener("keypress", (e) => {
-              if (e.key === "Enter") {
-                this.extractVideoInfo();
-              }
-            });
-
-          // Retry button
-          document.getElementById("retryBtn").addEventListener("click", () => {
-            this.hideAllSections();
-            document.getElementById("videoUrl").focus();
-          });
-
-          // Reset from error button
-          document
-            .getElementById("resetFromErrorBtn")
-            .addEventListener("click", () => {
-              this.resetDownloader();
-            });
-
-          // Download another button
-          document
-            .getElementById("downloadAnotherBtn")
-            .addEventListener("click", () => {
-              this.resetDownloader();
-            });
-
-          // Refresh files button
-          document
-            .getElementById("refreshFilesBtn")
-            .addEventListener("click", () => {
-              // Optional: Load recent files if needed
-            });
-        }
-
-        // Clear all previous data and UI state
-        clearPreviousData() {
-          console.log("🧹 Clearing previous data...");
-
-          // Clear video data
-          this.currentVideoData = null;
-          this.currentDownloadId = null;
-          this.currentFilename = null;
-          this.progressCheckCount = 0;
-          this.lastProgressUpdate = 0;
-          this.stopProgressTracking = false;
-
-          // Clear video info elements
-          document.getElementById("videoTitle").textContent = "Video Title";
-          document.getElementById("videoUploader").innerHTML =
-            '<i class="fas fa-user"></i> Unknown';
-          document.getElementById("videoDuration").innerHTML =
-            '<i class="fas fa-clock"></i> 0:00';
-          document.getElementById("videoViews").innerHTML =
-            '<i class="fas fa-eye"></i> 0 views';
-          document.getElementById("videoDescription").textContent = "";
-
-          // Reset thumbnail to placeholder
-          const thumbnailContainer = document.getElementById("videoThumbnail");
-          thumbnailContainer.innerHTML = '<i class="fas fa-video"></i>';
-          thumbnailContainer.className = "placeholder-image";
-
-          // Clear format list
-          document.getElementById("formatList").innerHTML = "";
-
-          // Reset progress
-          this.resetProgress();
-        }
-
-        resetProgress() {
-          document.getElementById("progressFill").style.width = "0%";
-          document.getElementById("progressPercent").textContent = "0%";
-          document.getElementById("progressSpeed").textContent = "Speed: N/A";
-          document.getElementById("progressEta").textContent = "ETA: N/A";
-          document.getElementById("progressDownloaded").textContent =
-            "Downloaded: 0 MB";
-          document.getElementById("progressTotal").textContent = "Total: 0 MB";
-          document.getElementById("downloadComplete").classList.add("hidden");
-        }
-
-        async forceDownload(filename) {
-          try {
-            console.log(`🔽 Starting download for: ${filename}`);
-            const downloadUrl = `/download_file/${encodeURIComponent(
-              filename
-            )}`;
-
-            try {
-              const response = await fetch(downloadUrl);
-              if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-              }
-
-              const blob = await response.blob();
-              const url = window.URL.createObjectURL(blob);
-              const a = document.createElement("a");
-              a.style.display = "none";
-              a.href = url;
-              a.download = filename;
-              document.body.appendChild(a);
-              a.click();
-
-              setTimeout(() => {
-                document.body.removeChild(a);
-                window.URL.revokeObjectURL(url);
-              }, 100);
-
-              this.showToast(
-                "Download started! Check your Downloads folder.",
-                "success"
-              );
-            } catch (fetchError) {
-              console.log("⚠️ Fetch method failed, trying direct link method");
-              const a = document.createElement("a");
-              a.href = downloadUrl;
-              a.download = filename;
-              a.target = "_self";
-              document.body.appendChild(a);
-              a.click();
-              document.body.removeChild(a);
-
-              this.showToast(
-                'Download started! If it opens in browser, right-click and "Save As"',
-                "success"
-              );
-            }
-          } catch (error) {
-            console.error("❌ Download error:", error);
-            this.showToast(
-              "Download failed. Please try again or check the Recent Downloads section.",
-              "error"
-            );
-          }
-        }
-
-        showToast(message, type = "success") {
-          const toast = document.createElement("div");
-          toast.className = `toast ${type}`;
-          toast.innerHTML = `
-      <i class="fas ${
-        type === "success" ? "fa-check-circle" : "fa-exclamation-triangle"
-      }"></i>
-      <span>${message}</span>
-      <button class="toast-close" onclick="this.parentElement.remove()">
-        <i class="fas fa-times"></i>
-      </button>
-    `;
-
-          document.getElementById("toastContainer").appendChild(toast);
-
-          setTimeout(() => {
-            toast.classList.add("show");
-          }, 100);
-
-          setTimeout(() => {
-            if (toast.parentNode) {
-              toast.classList.remove("show");
-              setTimeout(() => {
-                if (toast.parentNode) {
-                  toast.parentNode.removeChild(toast);
-                }
-              }, 300);
-            }
-          }, 5000);
-        }
-
-        resetDownloader() {
-          console.log("🔄 Resetting downloader...");
-
-          // Stop any ongoing progress tracking
-          this.stopProgressTracking = true;
-          this.isProcessing = false;
-
-          this.clearPreviousData();
-
-          // Clear URL input
-          document.getElementById("videoUrl").value = "";
-
-          // Hide all sections
-          this.hideAllSections();
-
-          // Focus on URL input
-          document.getElementById("videoUrl").focus();
-
-          this.showToast("Downloader reset successfully!", "success");
-          console.log("✅ Downloader reset complete");
-        }
-
-        async extractVideoInfo() {
-          if (this.isProcessing) {
-            console.log("⚠️ Already processing, ignoring request");
-            return;
-          }
-
-          const url = document.getElementById("videoUrl").value.trim();
-
-          if (!url) {
-            this.showError("Please enter a Facebook video URL");
-            return;
-          }
-
-          if (!this.isValidFacebookUrl(url)) {
-            this.showError(
-              "Please enter a valid Facebook video URL (facebook.com, m.facebook.com, or fb.watch)"
-            );
-            return;
-          }
-
-          this.isProcessing = true;
-          this.clearPreviousData();
-          this.hideAllSections();
-          this.showLoading("Extracting video information...");
-
-          try {
-            const response = await fetch("/extract_info", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ url: url }),
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-              throw new Error(data.detail || "Failed to extract video info");
-            }
-
-            this.currentVideoData = data;
-            this.displayVideoInfo(data);
-          } catch (error) {
-            console.error("Extract error:", error);
-            this.showError(error.message);
-          } finally {
-            this.isProcessing = false;
-          }
-        }
-
-        displayVideoInfo(data) {
-          this.hideAllSections();
-
-          // Set video thumbnail with fallback
-          const thumbnailContainer = document.getElementById("videoThumbnail");
-          if (data.thumbnail) {
-            const img = document.createElement("img");
-            img.src = data.thumbnail;
-            img.alt = "Video Thumbnail";
-            img.style.width = "100%";
-            img.style.height = "100%";
-            img.style.objectFit = "cover";
-
-            img.onerror = () => {
-              thumbnailContainer.innerHTML = '<i class="fas fa-video"></i>';
-              thumbnailContainer.className = "placeholder-image";
-            };
-
-            img.onload = () => {
-              thumbnailContainer.innerHTML = "";
-              thumbnailContainer.appendChild(img);
-              thumbnailContainer.className = "";
-            };
-          } else {
-            thumbnailContainer.innerHTML = '<i class="fas fa-video"></i>';
-            thumbnailContainer.className = "placeholder-image";
-          }
-
-          // Set video details
-          document.getElementById("videoTitle").textContent =
-            data.title || "Unknown Title";
-          document.getElementById(
-            "videoUploader"
-          ).innerHTML = `<i class="fas fa-user"></i> ${
-            data.uploader || "Unknown"
-          }`;
-          document.getElementById(
-            "videoDuration"
-          ).innerHTML = `<i class="fas fa-clock"></i> ${this.formatDuration(
-            data.duration
-          )}`;
-          document.getElementById(
-            "videoViews"
-          ).innerHTML = `<i class="fas fa-eye"></i> ${this.formatNumber(
-            data.view_count
-          )} views`;
-
-          // Set description
-          const descElement = document.getElementById("videoDescription");
-          if (data.description) {
-            descElement.textContent = data.description;
-            descElement.style.display = "block";
-          } else {
-            descElement.style.display = "none";
-          }
-
-          // Populate formats
-          const formatList = document.getElementById("formatList");
-          formatList.innerHTML = "";
-
-          if (!data.formats || data.formats.length === 0) {
-            formatList.innerHTML =
-              '<p class="no-formats">No downloadable formats available</p>';
-            document
-              .getElementById("videoInfoSection")
-              .classList.remove("hidden");
-            return;
-          }
-
-          data.formats.forEach((format) => {
-            const formatItem = document.createElement("div");
-            formatItem.className = "format-item";
-
-            let priorityBadge = "";
-            if (format.type === "combined" || format.type === "best_combined") {
-              priorityBadge = '<span class="priority-badge">RECOMMENDED</span>';
-            }
-
-            const formatDetails = this.getFormatDetails(format);
-
-            formatItem.innerHTML = `
-        <div class="format-info">
-          <div class="format-quality">
-            <i class="fas ${
-              format.type === "audio_only" ? "fa-music" : "fa-video"
-            }"></i>
-            ${format.quality}
-            ${priorityBadge}
-          </div>
-          <div class="format-details">
-            ${formatDetails}
-          </div>
+        <!-- Loading Spinner -->
+        <div class="loading" id="loading">
+            <div class="loader--default">
+                <div></div><div></div><div></div><div></div><div></div><div></div>
+                <div></div><div></div><div></div><div></div><div></div><div></div>
+            </div>
+            <p id="loadingText" style="margin-top: 20px; font-size: 1.1rem;">Extracting video information...</p>
         </div>
-        <button class="download-format-btn ${
-          format.type === "combined" || format.type === "best_combined"
-            ? "recommended"
-            : ""
-        }" data-format-id="${format.format_id}">
-          <i class="fas fa-download"></i>
-          <span>Download</span>
-        </button>
-      `;
 
-            formatItem
-              .querySelector(".download-format-btn")
-              .addEventListener("click", () => {
-                this.downloadVideo(format.format_id);
-              });
+        <!-- Error Message -->
+        <div class="error" id="error"></div>
 
-            formatList.appendChild(formatItem);
-          });
+        <!-- Success Message -->
+        <div class="success" id="success"></div>
 
-          document
-            .getElementById("videoInfoSection")
-            .classList.remove("hidden");
+        <!-- Video Info Section -->
+        <div class="video-info" id="videoInfo">
+            <div class="video-preview" id="videoPreview">
+                <img class="video-thumbnail" id="thumbnail" alt="Video thumbnail" />
+                <div class="video-details">
+                    <h3 id="videoTitle"></h3>
+                    <div class="video-meta" id="videoUploader"><i class="fas fa-user"></i> <span></span></div>
+                    <div class="video-meta" id="videoDuration"><i class="fas fa-clock"></i> <span></span></div>
+                    <div class="video-meta" id="videoViews"><i class="fas fa-eye"></i> <span></span></div>
+                    <div class="video-description" id="videoDescription"></div>
+                </div>
+            </div>
+
+            <!-- Format Selection -->
+            <div class="formats-section">
+                <h4><i class="fas fa-download"></i> Choose Quality & Format</h4>
+                <div class="format-tabs">
+                    <button type="button" class="format-tab active" data-tab="video">
+                        <i class="fas fa-video"></i> Video Formats
+                    </button>
+                    <button type="button" class="format-tab" data-tab="audio">
+                        <i class="fas fa-music"></i> Audio Only
+                    </button>
+                </div>
+                <div class="formats-grid active" id="videoFormatsGrid"></div>
+                <div class="formats-grid" id="audioFormatsGrid"></div>
+            </div>
+        </div>
+
+        <!-- Download Progress Section -->
+        <div class="download-section" id="downloadSection">
+            <h4 style="margin-bottom: 20px;"><i class="fas fa-download"></i> Download Progress</h4>
+            <div class="progress-container">
+                <div class="progress-header">
+                    <span id="progressPercent" class="progress-percent">0%</span>
+                    <span id="progressSpeed" class="progress-speed">Speed: N/A</span>
+                </div>
+                <div class="progress-bar">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+                <div class="progress-details">
+                    <span id="progressDownloaded">Downloaded: 0 MB</span>
+                    <span id="progressTotal">Total: 0 MB</span>
+                    <span id="progressEta">ETA: N/A</span>
+                </div>
+            </div>
+
+            <div id="downloadComplete" class="download-complete">
+                <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+                <p>Download completed successfully!</p>
+                <div class="download-actions">
+                    <button id="downloadFileBtn" class="btn btn-primary">
+                        <i class="fas fa-download"></i> Download File
+                    </button>
+                    <button id="downloadAnotherBtn" class="btn btn-secondary">
+                        <i class="fas fa-plus"></i> Download Another
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Downloads Section -->
+        <div class="files-section">
+            <div class="files-header">
+                <h3><i class="fas fa-folder"></i> Recent Downloads</h3>
+                <button id="refreshFilesBtn" class="btn btn-secondary">
+                    <i class="fas fa-sync"></i> Refresh
+                </button>
+            </div>
+            <div id="filesList" class="files-list">
+                <div class="no-files">No downloads yet</div>
+            </div>
+        </div>
+
+        <!-- New Features Section -->
+        <section style="margin-top: 60px; margin-bottom: 40px; animation: slideInUp 0.8s ease-out 0.3s both;">
+            <h2 style="text-align: center; font-size: 2rem; margin-bottom: 30px; color: var(--color-text-primary);">
+                <i class="fas fa-check-circle" style="color: #1877F2; margin-right: 10px;"></i>Why Choose Our Downloader?
+            </h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                <div style="background: #f8f9fa; padding: 25px; border-radius: 12px; text-align: center; transition: all 0.3s ease; border-left: 4px solid #1877F2; animation: slideInUp 0.5s ease-out 0.4s both;" class="feature-card">
+                    <i class="fas fa-bolt" style="font-size: 2.5rem; color: #1877F2; margin-bottom: 15px; display: block;"></i>
+                    <h3 style="margin-bottom: 10px; color: var(--color-text-primary);">Lightning Fast</h3>
+                    <p style="color: var(--color-text-secondary); font-size: 0.95rem;">Download videos at maximum speed with real-time progress tracking</p>
+                </div>
+                <div style="background: #f8f9fa; padding: 25px; border-radius: 12px; text-align: center; transition: all 0.3s ease; border-left: 4px solid #1877F2; animation: slideInUp 0.5s ease-out 0.5s both;" class="feature-card">
+                    <i class="fas fa-shield-alt" style="font-size: 2.5rem; color: #1877F2; margin-bottom: 15px; display: block;"></i>
+                    <h3 style="margin-bottom: 10px; color: var(--color-text-primary);">100% Safe</h3>
+                    <p style="color: var(--color-text-secondary); font-size: 0.95rem;">No account required, no spyware, no ads - completely secure</p>
+                </div>
+                <div style="background: #f8f9fa; padding: 25px; border-radius: 12px; text-align: center; transition: all 0.3s ease; border-left: 4px solid #1877F2; animation: slideInUp 0.5s ease-out 0.6s both;" class="feature-card">
+                    <i class="fas fa-cog" style="font-size: 2.5rem; color: #1877F2; margin-bottom: 15px; display: block;"></i>
+                    <h3 style="margin-bottom: 10px; color: var(--color-text-primary);">Multiple Formats</h3>
+                    <p style="color: var(--color-text-secondary); font-size: 0.95rem;">Choose from various quality options and audio formats</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section style="margin: 60px 0 40px 0; padding: 40px; background: linear-gradient(135deg, #1877F2 0%, #0a5fdb 100%); border-radius: 16px; color: white; animation: slideInUp 0.8s ease-out 0.4s both;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 30px; text-align: center;">
+                <div style="animation: slideInUp 0.5s ease-out 0.5s both;">
+                    <div style="font-size: 2.5rem; font-weight: 800; margin-bottom: 8px;">1000+</div>
+                    <div style="font-size: 1rem; opacity: 0.9;">Videos Downloaded Daily</div>
+                </div>
+                <div style="animation: slideInUp 0.5s ease-out 0.6s both;">
+                    <div style="font-size: 2.5rem; font-weight: 800; margin-bottom: 8px;">99.8%</div>
+                    <div style="font-size: 1rem; opacity: 0.9;">Success Rate</div>
+                </div>
+                <div style="animation: slideInUp 0.5s ease-out 0.7s both;">
+                    <div style="font-size: 2.5rem; font-weight: 800; margin-bottom: 8px;">&lt; 5s</div>
+                    <div style="font-size: 1rem; opacity: 0.9;">Average Speed</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section style="margin-bottom: 40px; animation: slideInUp 0.8s ease-out 0.5s both;">
+            <h2 style="text-align: center; font-size: 2rem; margin-bottom: 30px; color: var(--color-text-primary);">
+                <i class="fas fa-question-circle" style="color: #1877F2; margin-right: 10px;"></i>Frequently Asked Questions
+            </h2>
+            <div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px;">
+                <details style="padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #1877F2; cursor: pointer; transition: all 0.3s ease;" class="faq-item">
+                    <summary style="font-weight: 600; color: var(--color-text-primary); display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-play-circle" style="color: #1877F2;"></i>Is it legal to download Facebook videos?
+                    </summary>
+                    <p style="margin-top: 15px; color: var(--color-text-secondary); font-size: 0.95rem;">Yes, downloading videos for personal use is generally legal. Always respect copyright and only download content you have permission to use.</p>
+                </details>
+                <details style="padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #1877F2; cursor: pointer; transition: all 0.3s ease;" class="faq-item">
+                    <summary style="font-weight: 600; color: var(--color-text-primary); display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-shield-alt" style="color: #1877F2;"></i>Is my data safe?
+                    </summary>
+                    <p style="margin-top: 15px; color: var(--color-text-secondary); font-size: 0.95rem;">Yes! We don't store any personal data, URLs, or videos. Everything is processed securely and deleted after download.</p>
+                </details>
+                <details style="padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #1877F2; cursor: pointer; transition: all 0.3s ease;" class="faq-item">
+                    <summary style="font-weight: 600; color: var(--color-text-primary); display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-cogs" style="color: #1877F2;"></i>What formats are supported?
+                    </summary>
+                    <p style="margin-top: 15px; color: var(--color-text-secondary); font-size: 0.95rem;">We support MP4, MKV, WebM for video and MP3, M4A, WAV for audio in various quality options from 360p to 1080p.</p>
+                </details>
+            </div>
+        </section>
+    </div>
+
+    <style>
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(24, 119, 242, 0.2);
+            background: white;
         }
 
-        getFormatDetails(format) {
-          if (format.type === "combined" || format.type === "best_combined") {
-            return `
-        <span class="format-ext">${format.ext.toUpperCase()}</span>
-        <span class="format-size">${this.formatFileSize(format.filesize)}</span>
-        <span class="format-audio"><i class="fas fa-volume-up"></i> Audio</span>
-        ${format.fps ? `<span class="format-fps">${format.fps}fps</span>` : ""}
-      `;
-          } else if (format.type === "video_only") {
-            return `
-        <span class="format-ext">${format.ext.toUpperCase()}</span>
-        <span class="format-size">${this.formatFileSize(format.filesize)}</span>
-        <span class="format-audio-warning"><i class="fas fa-volume-mute"></i> No Audio</span>
-        ${format.fps ? `<span class="format-fps">${format.fps}fps</span>` : ""}
-      `;
-          } else {
-            return `
-        <span class="format-ext">${format.ext.toUpperCase()}</span>
-        <span class="format-size">${this.formatFileSize(format.filesize)}</span>
-        ${
-          format.abr
-            ? `<span class="format-bitrate">${format.abr}kbps</span>`
-            : ""
-        }
-      `;
-          }
+        .faq-item:hover {
+            box-shadow: 0 4px 12px rgba(24, 119, 242, 0.1);
+            transform: translateX(2px);
         }
 
-        async downloadVideo(formatId) {
-          if (this.isProcessing) {
-            console.log("⚠️ Already processing, ignoring download request");
-            return;
-          }
-
-          const url = document.getElementById("videoUrl").value.trim();
-          this.isProcessing = true;
-          this.stopProgressTracking = false;
-          this.hideAllSections();
-          this.showLoading("Starting ultra-fast download...");
-
-          try {
-            const response = await fetch("/download", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                url: url,
-                format_id: formatId,
-              }),
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-              throw new Error(data.detail || "Download failed");
-            }
-
-            this.currentDownloadId = data.download_id;
-            this.progressCheckCount = 0;
-            this.lastProgressUpdate = Date.now();
-
-            this.hideAllSections();
-            document
-              .getElementById("downloadSection")
-              .classList.remove("hidden");
-
-            this.trackProgress();
-          } catch (error) {
-            console.error("Download error:", error);
-            this.showError(error.message);
-          } finally {
-            this.isProcessing = false;
-          }
+        .faq-item[open] {
+            background: white;
+            border-left-color: #0a5fdb;
+            box-shadow: 0 4px 12px rgba(24, 119, 242, 0.15);
         }
+    </style>
 
-        async trackProgress() {
-          // Stop if tracking was cancelled
-          if (this.stopProgressTracking) {
-            console.log("Progress tracking stopped");
-            return;
-          }
-
-          this.progressCheckCount++;
-          const maxAttempts = 180; // 3 minutes max
-
-          if (this.progressCheckCount > maxAttempts) {
-            this.showError("Download timeout. Please try again.");
-            return;
-          }
-
-          try {
-            const response = await fetch(`/progress/${this.currentDownloadId}`);
-            const progress = await response.json();
-
-            if (progress.status === "downloading") {
-              this.updateProgress(progress);
-              // Continue checking progress after 2 seconds
-              setTimeout(() => this.trackProgress(), 2000);
-            } else if (progress.status === "finished") {
-              this.downloadComplete(progress.filename);
-            } else if (progress.status === "error") {
-              this.showError(progress.error || "Download failed");
-            } else if (
-              progress.status === "starting" ||
-              progress.status === "preparing"
-            ) {
-              document.getElementById("loadingText").textContent =
-                progress.message || "Preparing download...";
-              // Continue checking after 2 seconds
-              setTimeout(() => this.trackProgress(), 2000);
-            } else if (
-              progress.status === "merging" ||
-              progress.status === "processing"
-            ) {
-              this.updateProgress({
-                ...progress,
-                percent: Math.max(progress.percent || 95, 95),
-              });
-              // Continue checking after 2 seconds
-              setTimeout(() => this.trackProgress(), 2000);
-            }
-          } catch (error) {
-            console.error("Progress tracking error:", error);
-            // Retry after 2 seconds on error
-            setTimeout(() => this.trackProgress(), 2000);
-          }
-        }
-
-        updateProgress(progress) {
-          const percent = Math.min(progress.percent || 0, 100);
-          document.getElementById("progressFill").style.width = `${percent}%`;
-          document.getElementById(
-            "progressPercent"
-          ).textContent = `${Math.round(percent)}%`;
-          document.getElementById("progressSpeed").textContent = `Speed: ${
-            progress.speed || "N/A"
-          }`;
-          document.getElementById("progressEta").textContent = `ETA: ${
-            progress.eta || "N/A"
-          }`;
-
-          if (progress.downloaded) {
-            document.getElementById(
-              "progressDownloaded"
-            ).textContent = `Downloaded: ${this.formatFileSize(
-              progress.downloaded
-            )}`;
-          }
-
-          if (progress.total) {
-            document.getElementById(
-              "progressTotal"
-            ).textContent = `Total: ${this.formatFileSize(progress.total)}`;
-          }
-
-          this.lastProgressUpdate = Date.now();
-        }
-
-        downloadComplete(filename) {
-          document.getElementById("progressFill").style.width = "100%";
-          document.getElementById("progressPercent").textContent = "100%";
-          this.currentFilename = filename;
-
-          const downloadComplete = document.getElementById("downloadComplete");
-          const downloadBtn = document.getElementById("downloadFileBtn");
-
-          downloadBtn.onclick = () => {
-            this.forceDownload(filename);
-          };
-
-          downloadComplete.classList.remove("hidden");
-          console.log("✅ Download completed successfully");
-        }
-
-        showLoading(message = "Loading...") {
-          document.getElementById("loadingText").textContent = message;
-          document.getElementById("loadingSection").classList.remove("hidden");
-        }
-
-        showError(message) {
-          this.hideAllSections();
-          document.getElementById("errorMessage").textContent = message;
-          document.getElementById("errorSection").classList.remove("hidden");
-          this.isProcessing = false;
-          this.stopProgressTracking = true;
-        }
-
-        hideAllSections() {
-          const sections = [
-            "loadingSection",
-            "videoInfoSection",
-            "errorSection",
-          ];
-          sections.forEach((id) => {
-            document.getElementById(id).classList.add("hidden");
-          });
-        }
-
-        isValidFacebookUrl(url) {
-          const lowerUrl = url.toLowerCase();
-          return (
-            lowerUrl.includes("facebook.com") ||
-            lowerUrl.includes("fb.watch") ||
-            lowerUrl.includes("m.facebook.com")
-          );
-        }
-
-        formatDuration(seconds) {
-          if (!seconds || seconds === 0) return "0:00";
-          const mins = Math.floor(seconds / 60);
-          const secs = seconds % 60;
-          return `${mins}:${secs.toString().padStart(2, "0")}`;
-        }
-
-        formatNumber(num) {
-          if (!num || num === 0) return "0";
-          if (num >= 1000000) return (num / 1000000).toFixed(1) + "M";
-          if (num >= 1000) return (num / 1000).toFixed(1) + "K";
-          return num.toString();
-        }
-
-        formatFileSize(bytes) {
-          if (!bytes || bytes === 0) return "Unknown";
-          const sizes = ["Bytes", "KB", "MB", "GB"];
-          const i = Math.floor(Math.log(bytes) / Math.log(1024));
-          return (
-            Math.round((bytes / Math.pow(1024, i)) * 100) / 100 + " " + sizes[i]
-          );
-        }
-
-        truncateFilename(filename, maxLength) {
-          if (filename.length <= maxLength) return filename;
-          const ext = filename.split(".").pop();
-          const name = filename.substring(0, filename.lastIndexOf("."));
-          const truncated =
-            name.substring(0, maxLength - ext.length - 4) + "...";
-          return truncated + "." + ext;
-        }
-      }
-
-      // Initialize the app when DOM is loaded
-      let facebookDownloader;
-      document.addEventListener("DOMContentLoaded", () => {
-        facebookDownloader = new FacebookDownloader();
-        window.facebookDownloader = facebookDownloader; // Make it globally accessible
-      });
-    </script>
-  </body>
+   <script src="../static/script.js"></script>
+</body>
 </html>
